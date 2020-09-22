@@ -1,11 +1,11 @@
 import React from "react";
 
-const buttonIcon = ({ icon }) => {
+const ButtonIcon = ({ icon, type = 'button', ...props }) => {
   return (
-    <button className="btn btn-navbar" type="submit">
+    <button className="btn btn-navbar" type={type} {...props}>
       <i className={icon}></i>
     </button>
   );
 };
 
-export default buttonIcon;
+export default ButtonIcon;

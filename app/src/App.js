@@ -1,8 +1,8 @@
-import React from "react";
-import AdminPanel from "./templates/AdminPanel";
+import React from 'react';
+import PlanetPage from './pages/planet';
 
 function App() {
-  return <AdminPanel />;
+  return <PlanetPage />;
 }
 
 export default App;
