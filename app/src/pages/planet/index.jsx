@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import swal from 'sweetalert';
 import { getData } from '../../services';
 import AdminPanel from '../../templates/AdminPanel';
 
@@ -40,11 +41,21 @@ const PlanetPage = () => {
   }, [endpoint]);
 
   const handleDelete = targetId => {
-    const newData = data.results;
-    const index = newData.findIndex(data => data.id === targetId);
-    newData[index] = { ...newData[index], isDeleted: true };
+    swal({
+      title: 'Delete planet',
+      text: 'Are you sure you want to delete this?',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    }).then(willDelete => {
+      if (willDelete) {
+        const newData = data.results;
+        const index = newData.findIndex(data => data.id === targetId);
+        newData[index] = { ...newData[index], isDeleted: true };
 
-    setData(data => ({ ...data, results: newData }));
+        setData(data => ({ ...data, results: newData }));
+      }
+    });
   };
 
   const changePage = url => setEndpoint(url);
