@@ -11,10 +11,8 @@ const sidenavItemTreeview = ({ href, text, treeviewItemList }) => {
           <i className="fas fa-angle-left right"></i>
         </p>
       </a>
-      <ul className="nav nav-treeview" style="display: none;">
-        {/* {treeviewItemList.map((item) => (
-          <treeviewItem href={item.href} text={item.text} />
-        ))} */}
+      <ul className="nav nav-treeview">
+        <treeviewItem href="#" text="plants" />
       </ul>
     </li>
   );
