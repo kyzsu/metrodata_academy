@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import PlanetPage from './pages/planet';
-
-function App() {
-  return <PlanetPage />;
-=======
 import React, { Component } from "react";
 import "./App.css";
 // import AdminPanel from "./templates/AdminPanel";
@@ -29,7 +22,6 @@ class App extends Component {
       </div>
     );
   }
->>>>>>> 276913d61dbbbbec57f61daffdb4f9716abbe2a1
 }
 
 export default App;
