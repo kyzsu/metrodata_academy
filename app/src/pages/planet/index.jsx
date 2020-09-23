@@ -64,61 +64,86 @@ const PlanetPage = () => {
 
   return (
     <AdminPanel title="Planet">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Climate</th>
-            <th>Diameter</th>
-            <th>Gravity</th>
-            <th>Population</th>
-            <th>Terrain</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {loading && (
-            <tr>
-              <td colSpan={7}>Loading...</td>
-            </tr>
-          )}
-          {failLoad && (
-            <tr>
-              <td colSpan={7}>Can not load the data</td>
-            </tr>
-          )}
-          {filteredData.length === 0 && !loading && (
-            <tr>
-              <td colSpan={7}>There's no data</td>
-            </tr>
-          )}
-          {filteredData.map(result => (
-            <tr key={result.id}>
-              <td>{result.id}</td>
-              <td>{result.name}</td>
-              <td>{result.climate}</td>
-              <td>{result.diameter}</td>
-              <td>{result.gravity}</td>
-              <td>{result.population}</td>
-              <td>{result.terrain}</td>
-              <td>
-                <button>Edit</button>
-                <button onClick={() => handleDelete(result.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div>
-        <button disabled={data.previous === null} onClick={() => changePage(data.previous)}>
-          Previous
-        </button>
-        <button disabled={data.next === null} onClick={() => changePage(data.next)}>
-          Next
-        </button>
+      <div className="card mt-4">
+        <div class="card-header">
+          <h3 class="card-title">Data Planet</h3>
+        </div>
+        <div className="card-body table-responsive p-0">
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Climate</th>
+                <th>Diameter</th>
+                <th>Gravity</th>
+                <th>Population</th>
+                <th>Terrain</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading && (
+                <tr>
+                  <td colSpan={7}>Loading...</td>
+                </tr>
+              )}
+              {failLoad && (
+                <tr>
+                  <td colSpan={7}>Can not load the data</td>
+                </tr>
+              )}
+              {filteredData.length === 0 && !loading && (
+                <tr>
+                  <td colSpan={7}>There's no data</td>
+                </tr>
+              )}
+              {filteredData.map(result => (
+                <tr key={result.id}>
+                  <td>{result.id}</td>
+                  <td>{result.name}</td>
+                  <td>{result.climate}</td>
+                  <td>{result.diameter}</td>
+                  <td>{result.gravity}</td>
+                  <td>{result.population}</td>
+                  <td>{result.terrain}</td>
+                  <td>
+                    <div className="d-flex">
+                      <button className="btn btn-light mr-2">Edit</button>
+                      <button className="btn btn-danger" onClick={() => handleDelete(result.id)}>
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="card-footer clearfix">
+          <div className="float-left">Page: {currentPage}</div>
+          <ul className="pagination pagination-sm m-0 float-right">
+            <li className="page-item">
+              <button
+                className="page-link"
+                disabled={data.previous === null}
+                onClick={() => changePage(data.previous)}
+              >
+                &laquo;
+              </button>
+            </li>
+            <li className="page-item">
+              <button
+                className="page-link"
+                disabled={data.next === null}
+                onClick={() => changePage(data.next)}
+              >
+                &raquo;
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div>Page: {currentPage}</div>
     </AdminPanel>
   );
 };
