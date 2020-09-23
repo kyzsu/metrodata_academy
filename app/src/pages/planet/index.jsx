@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import swal from 'sweetalert';
-import { getData } from '../../services';
+import { getData, initEndpoint } from '../../services';
 import AdminPanel from '../../templates/AdminPanel';
 
 const PlanetPage = () => {
@@ -22,7 +22,7 @@ const PlanetPage = () => {
           const url = new URL(endpoint);
           const params = new URLSearchParams(url.search);
           page = params.get('page');
-          setCurrentPage(page);
+          setCurrentPage(parseInt(page));
         }
 
         let num = 1;
@@ -58,15 +58,18 @@ const PlanetPage = () => {
     });
   };
 
-  const changePage = url => setEndpoint(url);
+  const changePage = url => {
+    setLoading(true);
+    setEndpoint(url);
+  };
 
   const filteredData = data.results.filter(result => !result.isDeleted);
 
   return (
     <AdminPanel title="Planet">
       <div className="card mt-4">
-        <div class="card-header">
-          <h3 class="card-title">Data Planet</h3>
+        <div className="card-header">
+          <h3 className="card-title">Data Planet</h3>
         </div>
         <div className="card-body table-responsive p-0">
           <table className="table table-hover">
@@ -98,32 +101,33 @@ const PlanetPage = () => {
                   <td colSpan={7}>There's no data</td>
                 </tr>
               )}
-              {filteredData.map((result, index) => (
-                <tr key={result.id}>
-                  <td>{(currentPage - 1) * filteredData.length + index + 1}</td>
-                  <td>{result.name}</td>
-                  <td>{result.climate}</td>
-                  <td>{result.diameter}</td>
-                  <td>{result.gravity}</td>
-                  <td>{result.population}</td>
-                  <td>{result.terrain}</td>
-                  <td>
-                    <div className="d-flex">
-                      <button className="btn btn-light mr-2">Edit</button>
-                      <button className="btn btn-danger" onClick={() => handleDelete(result.id)}>
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {!loading &&
+                filteredData.map((result, index) => (
+                  <tr key={result.id}>
+                    <td>{(currentPage - 1) * filteredData.length + index + 1}</td>
+                    <td>{result.name}</td>
+                    <td>{result.climate}</td>
+                    <td>{result.diameter}</td>
+                    <td>{result.gravity}</td>
+                    <td>{result.population}</td>
+                    <td>{result.terrain}</td>
+                    <td>
+                      <div className="d-flex">
+                        <button className="btn btn-light mr-2">Edit</button>
+                        <button className="btn btn-danger" onClick={() => handleDelete(result.id)}>
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
         <div className="card-footer clearfix">
           <div className="float-left">Page: {currentPage}</div>
-          <ul className="pagination pagination-sm m-0 float-right">
-            <li className="page-item">
+          <ul className="pagination m-0 float-right">
+            <li className={`page-item paginate_button ${data.previous === null ? 'disabled' : ''}`}>
               <button
                 className="page-link"
                 disabled={data.previous === null}
@@ -132,7 +136,23 @@ const PlanetPage = () => {
                 &laquo;
               </button>
             </li>
-            <li className="page-item">
+            {data.results.length !== 0 &&
+              [...Array(data.count / data.results.length)].map((u, index) => (
+                <li
+                  className={`page-item paginate_button ${
+                    currentPage === index + 1 ? 'active' : ''
+                  }`}
+                >
+                  <button
+                    className="page-link"
+                    disabled={currentPage === index + 1}
+                    onClick={() => changePage(initEndpoint + '?page=' + (index + 1))}
+                  >
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+            <li className={`page-item paginate_button ${data.next === null ? 'disabled' : ''}`}>
               <button
                 className="page-link"
                 disabled={data.next === null}
