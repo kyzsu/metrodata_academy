@@ -28,11 +28,17 @@ class Todo extends Component {
       planets: [
         ...this.state.planets,
         {
-          name: event.target.item.value,
+          name: event.target.name.value,
+          gravity: event.target.gravity.value,
+          terrain: event.target.terrain.value,
+          climate: event.target.climate.value,
         },
       ],
     });
-    event.target.item.value = "";
+    event.target.name.value = "";
+    event.target.gravity.value = "";
+    event.target.terrain.value = "";
+    event.target.climate.value = "";
   }
 
   onEdithandleSW(event) {
@@ -49,7 +55,7 @@ class Todo extends Component {
     this.setState({
       planets: this.state.planets.map((p) => {
         if (p.name === this.state.name) {
-          p["name"] = event.target.updatedItem.value;
+          p["name"] = event.target.name.value;
           return p;
         }
         return p;
@@ -65,7 +71,7 @@ class Todo extends Component {
           {" "}
           <input
             type="text"
-            name="updatedItem"
+            name="name"
             className="item"
             defaultValue={this.state.name}
           />{" "}
@@ -90,18 +96,36 @@ class Todo extends Component {
   render() {
     return (
       <div>
-        {" "}
         {this.renderEditFormSW()}
         <form onSubmit={this.onSubmitHandleSW.bind(this)}>
-          {" "}
-          <input type="text" name="item" className="item" />{" "}
-          <button className="btn-add-item">Add</button>{" "}
-        </form>{" "}
+          <input type="text" name="name" className="item" placeholder="name" />{" "}
+          <input
+            type="text"
+            name="terrain"
+            className="item"
+            placeholder="terrain"
+          />{" "}
+          <input
+            type="text"
+            name="gravity"
+            className="item"
+            placeholder="gravity"
+          />{" "}
+          <input
+            type="text"
+            name="climate"
+            className="item"
+            placeholder="climate"
+          />{" "}
+          <button className="btn-add-item">Add</button>
+        </form>
         <ul>
           {this.state.planets.map((p) => (
             <li key={p.name}>
-              {" "}
-              {p.name}{" "}
+              <h3>Name: {p.name}</h3>
+              <p>Terrain: {p.terrain}</p>
+              <p>Gravity: {p.gravity}</p>
+              <p>Climate: {p.climate}</p>
               <button onClick={this.onDeleteHandleSW.bind(this, p.name)}>
                 Delete
               </button>
