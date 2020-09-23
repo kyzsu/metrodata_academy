@@ -98,9 +98,9 @@ const PlanetPage = () => {
                   <td colSpan={7}>There's no data</td>
                 </tr>
               )}
-              {filteredData.map(result => (
+              {filteredData.map((result, index) => (
                 <tr key={result.id}>
-                  <td>{result.id}</td>
+                  <td>{(currentPage - 1) * filteredData.length + index + 1}</td>
                   <td>{result.name}</td>
                   <td>{result.climate}</td>
                   <td>{result.diameter}</td>
