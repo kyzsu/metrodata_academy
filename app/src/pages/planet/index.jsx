@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import swal from 'sweetalert';
 import { getData, initEndpoint } from '../../services';
 import AdminPanel from '../../templates/AdminPanel';
+import { formatNumber } from '../../utils/number';
 
 const PlanetPage = () => {
   const [endpoint, setEndpoint] = useState(null);
@@ -107,9 +108,9 @@ const PlanetPage = () => {
                     <td>{(currentPage - 1) * filteredData.length + index + 1}</td>
                     <td>{result.name}</td>
                     <td>{result.climate}</td>
-                    <td>{result.diameter}</td>
+                    <td>{formatNumber(result.diameter)}</td>
                     <td>{result.gravity}</td>
-                    <td>{result.population}</td>
+                    <td>{formatNumber(result.population)}</td>
                     <td>{result.terrain}</td>
                     <td>
                       <div className="d-flex">
