@@ -12,6 +12,7 @@ const PlanetPage = () => {
   const [data, setData] = useState({
     results: [],
   });
+  const [initialDataLength, setInitialDataLength] = useState(0);
 
   useEffect(() => {
     getData(endpoint)
@@ -32,6 +33,7 @@ const PlanetPage = () => {
           id: (page - 1) * data.results.length + num++,
         }));
 
+        setInitialDataLength(currentData.results.length);
         setData(currentData);
       })
       .catch(err => {
@@ -138,7 +140,7 @@ const PlanetPage = () => {
               </button>
             </li>
             {data.results.length !== 0 &&
-              [...Array(data.count / data.results.length)].map((u, index) => (
+              [...Array(data.count / initialDataLength)].map((u, index) => (
                 <li
                   className={`page-item paginate_button ${
                     currentPage === index + 1 ? 'active' : ''
