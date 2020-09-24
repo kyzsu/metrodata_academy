@@ -1,26 +1,28 @@
-import React from "react";
-import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import React from 'react';
+import { useState } from 'react';
+import { Button, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const AddPlanetForm = (props) => {
+const AddPlanetForm = props => {
   const initPlanet = {
     id: null,
-    name: "",
-    climate: "",
-    diameter: "",
-    gravity: "",
-    population: "",
-    terrain: "",
+    name: '',
+    climate: '',
+    diameter: '',
+    gravity: '',
+    population: '',
+    terrain: '',
   };
 
   const [planet, setPlanet] = useState(initPlanet);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
     setPlanet({ ...planet, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     if (
       planet.name &&
@@ -42,9 +44,14 @@ const AddPlanetForm = (props) => {
 
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
-          New Planet
-        </Button>
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id="button-tooltip">Create new data</Tooltip>}
+        >
+          <Button variant="primary" onClick={handleShow}>
+            <FontAwesomeIcon icon={faPlus}/>
+          </Button>
+        </OverlayTrigger>
 
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
