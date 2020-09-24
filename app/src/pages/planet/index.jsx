@@ -44,7 +44,10 @@ const PlanetPage = () => {
 
   const addPlanet = (planet) => {
     planet.id = data.results.length + 1;
-    setData([...data.results, planet]);
+    setData((data) => ({
+      ...data,
+      results: [...data.results, planet],
+    }));
   };
 
   const handleDelete = (targetId) => {
