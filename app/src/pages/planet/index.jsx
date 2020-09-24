@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import swal from "sweetalert";
-import { getData, initEndpoint } from "../../services";
-import AdminPanel from "../../templates/AdminPanel";
+import React, { useEffect, useState } from 'react';
+import swal from 'sweetalert';
+import { getData, initEndpoint } from '../../services';
+import AdminPanel from '../../templates/AdminPanel';
+import { formatNumber } from '../../utils/number';
 import AddPlanetForm from "./addPlanetForm";
 
 const PlanetPage = () => {
@@ -12,6 +13,8 @@ const PlanetPage = () => {
   const [data, setData] = useState({
     results: [],
   });
+  
+  const [initialDataLength, setInitialDataLength] = useState(0);
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
@@ -33,6 +36,7 @@ const PlanetPage = () => {
           id: (page - 1) * data.results.length + num++,
         }));
 
+        setInitialDataLength(currentData.results.length);
         setData(currentData);
       })
       .catch((err) => {
@@ -121,9 +125,9 @@ const PlanetPage = () => {
                     </td>
                     <td>{result.name}</td>
                     <td>{result.climate}</td>
-                    <td>{result.diameter}</td>
+                    <td>{formatNumber(result.diameter)}</td>
                     <td>{result.gravity}</td>
-                    <td>{result.population}</td>
+                    <td>{formatNumber(result.population)}</td>
                     <td>{result.terrain}</td>
                     <td>
                       <div className="d-flex">
@@ -158,7 +162,7 @@ const PlanetPage = () => {
               </button>
             </li>
             {data.results.length !== 0 &&
-              [...Array(data.count / data.results.length)].map((u, index) => (
+              [...Array(data.count / initialDataLength)].map((u, index) => (
                 <li
                   className={`page-item paginate_button ${
                     currentPage === index + 1 ? "active" : ""
