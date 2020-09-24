@@ -4,6 +4,7 @@ import { getData, initEndpoint } from '../../services';
 import AdminPanel from '../../templates/AdminPanel';
 import { formatNumber } from '../../utils/number';
 import AddPlanetForm from './addPlanetForm';
+import EditPlanetForm from './editPlanetForm';
 
 const PlanetPage = () => {
   const [endpoint, setEndpoint] = useState(null);
@@ -17,6 +18,18 @@ const PlanetPage = () => {
 
   const [initialDataLength, setInitialDataLength] = useState(0);
   const [editing, setEditing] = useState(false);
+
+  const initialPlanet = {
+    id: null,
+    name: '',
+    climate: '',
+    diameter: '',
+    gravity: '',
+    population: '',
+    terrain: '',
+  };
+
+  const [currentPlanet, setCurrentPlanet] = useState(initialPlanet);
 
   useEffect(() => {
     getData(endpoint)
@@ -53,6 +66,15 @@ const PlanetPage = () => {
       ...data,
       results: [...data.results, planet],
     }));
+  };
+
+  const editPlanet = (id, planet) => {
+    setEditing(true);
+    setCurrentPlanet(planet);
+  };
+
+  const updatePlanet = newPlanet => {
+    setData(data.results.map(planet => (planet.id === currentPlanet.id ? newPlanet : planet)));
   };
 
   const handleDelete = targetId => {
@@ -123,8 +145,19 @@ const PlanetPage = () => {
 
   return (
     <AdminPanel title="Planet">
-      <h2>Add Planet</h2>
-      <AddPlanetForm addPlanet={addPlanet} />
+      {editing ? (
+        <>
+          <EditPlanetForm
+            setEditing={setEditing}
+            currentPlanet={currentPlanet}
+            updatePlanet={updatePlanet}
+          />
+        </>
+      ) : (
+        <>
+          <AddPlanetForm addPlanet={addPlanet} />
+        </>
+      )}
       <div className="card mt-4">
         <div className="card-header">
           <h3 className="card-title">Data Planet</h3>
@@ -171,7 +204,12 @@ const PlanetPage = () => {
                     <td>{result.terrain}</td>
                     <td>
                       <div className="d-flex">
-                        <button className="btn btn-light mr-2">Edit</button>
+                        <button
+                          className="btn btn-light mr-2"
+                          onClick={() => editPlanet(result.id)}
+                        >
+                          Edit
+                        </button>
                         <button className="btn btn-danger" onClick={() => handleDelete(result.id)}>
                           Delete
                         </button>
