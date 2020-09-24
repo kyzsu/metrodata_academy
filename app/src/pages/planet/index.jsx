@@ -105,7 +105,6 @@ const PlanetPage = () => {
     <AdminPanel title="Planet">
       {editing ? (
         <>
-          <h2>Edit Planet</h2>
           <EditPlanetForm
             setEditing={setEditing}
             currentPlanet={currentPlanet}
@@ -114,7 +113,6 @@ const PlanetPage = () => {
         </>
       ) : (
         <>
-          <h2>Add Planet</h2>
           <AddPlanetForm addPlanet={addPlanet} />
         </>
       )}
