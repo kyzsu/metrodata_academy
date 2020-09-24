@@ -5,6 +5,9 @@ import AdminPanel from '../../templates/AdminPanel';
 import { formatNumber } from '../../utils/number';
 import AddPlanetForm from './addPlanetForm';
 import EditPlanetForm from './editPlanetForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
 
 const PlanetPage = () => {
   const [endpoint, setEndpoint] = useState(null);
@@ -159,9 +162,6 @@ const PlanetPage = () => {
         </>
       )}
       <div className="card mt-4">
-        <div className="card-header">
-          <h3 className="card-title">Data Planet</h3>
-        </div>
         <div className="card-body table-responsive p-0">
           <table className="table table-hover">
             <thead>
@@ -204,15 +204,26 @@ const PlanetPage = () => {
                     <td>{result.terrain}</td>
                     <td>
                       <div className="d-flex">
-                        <button
-                          className="btn btn-light mr-2"
-                          onClick={() => editPlanet(result.id)}
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={<Tooltip id="button-tooltip">Update the data</Tooltip>}
                         >
-                          Edit
-                        </button>
-                        <button className="btn btn-danger" onClick={() => handleDelete(result.id)}>
-                          Delete
-                        </button>
+                          <Button
+                            variant="light"
+                            onClick={() => editPlanet(result.id)}
+                            className="mr-2"
+                          >
+                            <FontAwesomeIcon icon={faEdit} />
+                          </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={<Tooltip id="button-tooltip">Delete the data</Tooltip>}
+                        >
+                          <Button variant="danger" onClick={() => handleDelete(result.id)}>
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </Button>
+                        </OverlayTrigger>
                       </div>
                     </td>
                   </tr>
