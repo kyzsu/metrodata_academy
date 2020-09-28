@@ -38,11 +38,19 @@ const PlanetPage = () => {
     setCurrentPlanet(planet);
   };
   const updatePlanet = (newPlanet) => {
-    setData(
-      data.results.map((planet) =>
-        planet.name === currentPlanet.name ? newPlanet : planet
-      )
-    );
+    // setData(
+    //   data.results.map((planet) =>
+    //     planet.name === currentPlanet.name ? newPlanet : planet
+    //   )
+    // );
+    setData((data) => {
+      return {
+        ...data,
+        results: data.results.map((planet) =>
+          planet.name === currentPlanet.name ? newPlanet : planet
+        ),
+      };
+    });
   };
 
   useEffect(() => {
